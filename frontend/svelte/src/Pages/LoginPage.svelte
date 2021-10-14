@@ -1,4 +1,6 @@
 <script>
+import { Link } from "svelte-navigator";
+
   var email;
   var password;
 
@@ -13,21 +15,41 @@
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
+    credentials: "include",
     body: raw,
     redirect: "follow",
   };
 
   fetch("http://127.0.0.1:8000/api/login/", requestOptions)
-    .then((response) =>{ 
-      response.json();
-      console.log(response);
-    })
-    .then((result) => {
+    .then(response => response.json())
+    .then(result => {
+      console.log('result cookie :>',(result.cookie))
       console.log('result',result)
-      document.cookie =`jwt = ${result.jwt}`;
+      console.log('result jwt',result.jwt)
+
+      // document.cookie =`jwt = ${result.jwt}`;
       // localStorage.setItem('jwt',result.jwt)
       
     })
+    // .then((response) =>{ 
+    //   console.log(typeof(response));
+    //   console.log("--------------------");
+    //   console.log(response);
+    //   console.log("--------------------");
+    //   response.json();
+    //   console.log(response);
+    //   console.log("--------------------");
+    //   console.log(typeof(response));
+    //   console.log("--------------------\n\n");
+    // })
+    // .then((result) => {
+    //   console.log('result',result);
+    //   console.log(typeof(result));
+    //   console.log("--------------------");
+    //   document.cookie =`jwt = ${result.jwt}`;
+    //   // localStorage.setItem('jwt',result.jwt)
+      
+    // })
     .catch((error) => console.log("error", error));}
 </script>
 
@@ -153,10 +175,6 @@
   .txtInput:focus {
     border-bottom: 2px solid #11998e;
     outline: none;
-  }
-
-  .txtInput:focus :placeholder-shown {
-    display: none;
   }
 
   .btnLogin {

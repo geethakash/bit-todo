@@ -4,34 +4,46 @@
   import LoginPage from "./Pages/LoginPage.svelte";
   import RegisterPage from "./Pages/RegisterPage.svelte";
   import Register from "./Pages/RegisterPage.svelte";
-  export let darktheme;
   import { Router, Route, Link } from "svelte-navigator";
   import Dashbord from "./Pages/Dashbord.svelte";
+  import { onMount, setContext } from "svelte";
+  import { storedUser } from './Stores/stores.js';
+import Spinner from "./Components/Spinner.svelte";
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  // var jwt = getCookie("jwt");
-  var jwt = localStorage.getItem('jwt');
-  console.log('local Token :>',jwt);
-  // console.log("jwt token :>", getCookie("jwt"));
-  var raw = JSON.stringify({
-    jwt,
-  });
+  let darktheme = true;
+  
+  
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", getCookie("jwt"));
 
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      credentials: "include",
+      redirect: "follow",
+    };
 
-  fetch("http://127.0.0.1:8000/api/user/", requestOptions)
-    .then((response) => response.text())
-    .then((result) => {
-      console.log(result);
-      localStorage.setItem("user", result);
-    })
-    .catch((error) => console.log("error", error));
+    fetch("http://127.0.0.1:8000/api/user/", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.username) {
+          storedUser.set(result);
+
+        }
+        else {
+          
+          console.log('got an error')
+        }
+        // console.log('user',user)
+        
+
+        
+        
+        
+      })
+      .catch((error) => console.log("error", error));
+
 
   function getCookie(name) {
     let cookieValue = null;
@@ -49,22 +61,22 @@
     return cookieValue;
   }
 </script>
-
+<ThemeToggler />
 <div class="w-full h-full {darktheme ? 'bg-defaultDark' : 'bg-gray-100'} ">
+  
   <Router>
     <Route path="/">
       <Dashbord />
     </Route>
-    <Route path="login/">
+    <Route  path="login/">
       <LoginPage />
     </Route>
-    <Route path="register/">
+    <Route  path="register/">
       <RegisterPage />
     </Route>
   </Router>
-  <!-- <ThemeToggler /> -->
+  
 </div>
--
 
 <style lang="postcss" global>
   @tailwind base;
