@@ -19,7 +19,6 @@ class LoginView(APIView):
     def post(self, request):
         email = request.data['email']
         password = request.data['password']
-        print(email,password)
 
         user = User.objects.filter(email=email).first()
 
@@ -31,7 +30,7 @@ class LoginView(APIView):
 
         payload = {
             'id':user.id,
-            'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'exp':datetime.datetime.utcnow() + datetime.timedelta(hours=720),
             'iat': datetime.datetime.utcnow()
         }
 
@@ -39,25 +38,26 @@ class LoginView(APIView):
 
         response = Response()
         
-        response.set_cookie(key='jwt',value=token,httponly=True,secure=True,samesite=None)
+        response.set_cookie(key='jwt',value=token,httponly=True)
         response.data = ({
             'jwt':token,
+            'detail':'success'
         })
-        print(token)
         return response
 
 
 class UserView(APIView):
-   def get(self, request):
-        token = request.COOKIES.get('jwt')
+   def post(self, request):
+        # token = request.COOKIES.get('jwt')
+        token = request.data['jwt']
 
         if not token:
-            raise AuthenticationFailed('Unauthenticated!')
+            raise AuthenticationFailed('no token found!')
 
         try:
             payload = jwt.decode(token, 'secret', algorithm=['HS256'])
         except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated!')
+            raise AuthenticationFailed('Session Expired!')
 
         user = User.objects.filter(id=payload['id']).first()
         serializer = UserSerializer(user)
@@ -68,6 +68,6 @@ class LogoutView(APIView):
         response = Response()
         response.delete_cookie('jwt')
         response.data = {
-            'message':'success'
+            'detail':'Logout Successfuly!'
         }
         return response

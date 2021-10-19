@@ -1,7 +1,43 @@
 
 .bg-defaultDark {
-  background-color: #1a1730;
+  background-color: #1a1a22;
+ 
 }
+.bg-dark1 {
+  background-color: #272729;
+}
+.bg-dark2 {
+  background-color: #2f2c42;
+}
+
+.add-transition-05 {
+  transition: all 0.5s;
+
+
+}
+.-z {
+  z-index: -100;
+  position: relative;
+}
+
+.myrotate-180 {
+  transform: rotate(180deg);
+}
+
+.h-80vh {
+  height: 89vh;
+}
+
+.list-title {
+  size: 100;
+}
+
+.border-bottom-1 {
+  border-bottom: 1px solid rgb(83, 83, 83)
+}
+
+
+
 
 
 
@@ -185,31 +221,71 @@
 
 
 
-
 .loader { 
   transform: scale(0.5);
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
+  border-radius:100%;
   animation: mymove 5s infinite;
  
 }
 
 @keyframes mymove {
   25% {
-    transform: rotate(50deg);
-    background-color:#8a1ee2 ;
-    border-radius:30%;
-
+    transform: rotate(45deg);
+    background-color:#c300ff ;
+    border-radius: 20%;
   }
   50% {
     transform: rotate(180deg);
     background-color:#8a1ee2 ;
     border-radius: 50%;
   }
+  
   75% {
-   transform: rotate(1200deg);
-   border-radius: 30%;
-  }
+    transform: rotate(1800deg);
+    border-radius: 30%;
 
 
+   }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #3f3a3a; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #575255; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(141, 137, 137); 
 }

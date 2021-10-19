@@ -1,13 +1,18 @@
 import { useState } from "react";
 import Logo from "../assets/img/LogoResized.png";
+import { Link, useHistory  } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function LoginPage() {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const history = useHistory();
 
   const handleLogin = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    
+    if (email && password) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
       email,
@@ -17,21 +22,35 @@ function LoginPage() {
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
-      mode: 'cors',
+      mode: "cors",
       credentials: "include",
       body: raw,
       redirect: "follow",
     };
-
-    fetch("http://127.0.0.1:8000/api/login/", requestOptions)
+    fetch("http://192.168.8.109:8000/api/login/", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("result cookie :>", result);
-        console.log("result", result);
-        console.log("result jwt", result.jwt);
+        console.log(result.detail);
+        switch (result.detail) {
+          case 'success':
+            localStorage.setItem("jwt", result.jwt);
+            toast(`Login Successfully as ${email}`,{theme:'colored',type:'success'});
+            history.push('/');
+            break;
+          case 'Incorrent password!' || 'User not found!' :
+            toast(result.detail,{theme:'colored',type:'error'});
+            break;
+          default:
+            toast('Something wents wrong!',{theme:'colored',type:'error'})
+        }
+        
       })
 
-      .catch((error) => console.log("error", error));
+      .catch((error) => toast(error,{theme:"colored",type:'error'}));
+    } else {
+      toast('username or password fields are empty!',{type:'error',theme:'colored'})
+    }
+    
   };
 
   const handleSubmit = (e) => {
@@ -90,9 +109,9 @@ function LoginPage() {
         </form>
         <p className="haveacclbl text-gray-400">
           Need an account?
-          <a href="#google" className="reglink">
+          <Link to="/register" className="reglink">
             Register
-          </a>
+          </Link>
         </p>
       </div>
     </section>

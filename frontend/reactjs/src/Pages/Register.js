@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import Logo from "../assets/img/LogoResized.png";
 
 function Register() {
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const history = useHistory()
 
   const handleRegister = () => {
     var myHeaders = new Headers();
@@ -24,11 +27,13 @@ function Register() {
       redirect: "follow",
     };
 
-    fetch("http://127.0.0.1:8000/api/register/", requestOptions)
+    fetch("http://192.168.8.109:8000/api/register/", requestOptions)
       .then((response) => response.json())
       .then((result) => console.log(result))
+      .then(history.push("/login"))
       .catch((error) => {
         console.log("error", error);
+        toast(error,{type:'error',theme:'colored'})
 
       });
   };
@@ -93,13 +98,13 @@ function Register() {
           <a href="google" className="forgotlink">
             Forgot Password?
           </a>
-          <input className="btnLogin" type="submit" value="Login" />
+          <input className="btnLogin" type="submit" value="Register" />
         </form>
         <p className="haveacclbl text-gray-400">
           Already have an account?
-          <a href="#google" className="reglink">
-            Register
-          </a>
+          <Link to="/login" className="reglink">
+            Login
+          </Link>
         </p>
       </div>
     </section>
