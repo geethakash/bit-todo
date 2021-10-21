@@ -9,7 +9,7 @@ function ListItem({todo}) {
       <div className="ml-2 mr-5">
         <input type="checkbox" className="form-checkbox text-green-500" />
       </div>
-      <input className="bg-transparent outline-none w-10/12" onChange={e => setTitle(e.target.value)} value={title} />
+      <input  className="bg-transparent outline-none w-10/12" onChange={e => setTitle(e.target.value)} value={title} />
     </li>
   );
 }

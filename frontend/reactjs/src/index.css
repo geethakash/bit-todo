@@ -1,21 +1,27 @@
-/* ./src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .sidebar-icon {
+    @apply relative text-green-400  mt-1 mb-1 flex items-center justify-center h-12 w-12 mx-auto shadow-lg border border-gray-600 hover:shadow-lg rounded-md 
+    hover:rounded-xl hover:bg-purple-600 hover:text-white
+    transition-all duration-300
+    
+    ;
+  }
+  .sidebar-img {
+    @apply relative text-purple-500 bg-gray-800 mt-2 mb-5 flex items-center justify-center h-12 w-12 mx-auto shadow-lg border border-gray-600
+    rounded-2xl hover:rounded-md transition-all duration-300;
+  }
+  .sidebar-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max left-14 text-purple-400 bg-black rounded-md text-xs scale-0 font-bold transition-all duration-100 z-20;
+  }
+  .tooltip {
+    @apply relative w-auto p-2 m-2 min-w-max left-14 text-purple-400 bg-black rounded-md text-xs scale-0 font-bold transition-all duration-100 z-20;
+  }
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  background: #1a1a22;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #1a1a22;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-

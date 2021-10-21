@@ -41,7 +41,7 @@ function LoginPage() {
             toast(result.detail,{theme:'colored',type:'error'});
             break;
           default:
-            toast('Something wents wrong!',{theme:'colored',type:'error'})
+            toast(result.detail,{theme:'colored',type:'error'})
         }
         
       })
@@ -59,7 +59,7 @@ function LoginPage() {
   };
 
   return (
-    <section className="">
+    <section className="bg-gray-900">
       <div className="leftPanel w-1/2 h-screen float-left flex flex-col justify-center items-center">
         <h1 className="welcomeTxt">WELCOME</h1>
         <img className="authSideImg" src={Logo} alt="Login Authentication" />

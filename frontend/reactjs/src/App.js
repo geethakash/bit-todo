@@ -11,14 +11,15 @@ import {userContext } from './Context/UserContext';
 import PageNotFound from "./Pages/PageNotFound";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({username:'Akash_Geethanjana'});
+  const [data,setData] = useState(null)
 
 
   
 
   return (
     <Router>
-      <userContext.Provider value={{user,setUser}} >
+      <userContext.Provider value={{user,setUser,data,setData}} >
       <div className="w-full h-full bg-defaultDark">
         <ToastContainer />
         <Switch>

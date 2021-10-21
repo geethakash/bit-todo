@@ -33,10 +33,10 @@ class GetUserDataView(APIView):
         response = Response()
 
         if (userData):
-            print(userData)
             response.data = ({
                 "data": userData,
-                "detail": "success"
+                "detail": "success",
+                "message":"Login Successfully"
             })
             return response
         else:
@@ -65,7 +65,7 @@ class SetUserDataView(APIView):
                 setUserData.Data = data
                 setUserData.dataJson = data
                 setUserData.save()
-                return Response({"detail":'success',"Message":"Updated Successfully!"})
+                return Response({"detail":'success',"message":"Updated Successfully!"})
 
             except:
                 setUserData = UserData(
