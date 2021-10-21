@@ -17,12 +17,12 @@ function OtherLists({ data }) {
         </span>
       </div>
       <div className="w-full pt-5">
-        {data.data.otherLists.map((todoList,index) => (
+        {data.data.otherLists.map((list,index) => (
           <div className="w-full p-2 hover:bg-green-600 transition-all duration-100 rounded  flex items-center">
             <span className="mr-2">
               <BsList />
             </span>
-            <div className="truncate">{todoList.title}</div>
+            <div className="truncate">{list.title}</div>
           </div>
         ))}
       </div>

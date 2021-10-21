@@ -1,21 +1,18 @@
 import "./App.css";
 import Spinner from "./Components/Spinner";
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import {useState } from "react";
 import {userContext } from './Context/UserContext';
 import PageNotFound from "./Pages/PageNotFound";
 
 function App() {
-  const [user, setUser] = useState({username:'Akash_Geethanjana'});
-  const [data,setData] = useState(null)
-
-
-  
+  const [user, setUser] = useState({});
+  const [data, setData] = useState();
 
   return (
     <Router>

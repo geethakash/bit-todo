@@ -16,9 +16,14 @@ import OtherLists from "../Components/OtherLists";
 function Dashboard() {
   const [user, setUser] = useState(null);
   const Context = useContext(userContext);
-  const [selectedPanel, setSelectedPanel] = useState("todos");
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
+  // for side bar
+  const [selectedPanel, setSelectedPanel] = useState("todos");
+  
+  // for selected item
+  const [selectedTodo,setSelectedTodo] = useState(null)
+
   const [data, setData] = useState({
     data: {
       todoLists: [
@@ -110,17 +115,16 @@ function Dashboard() {
     }
     setIsLoading(false);
 
-    setTimeout(() => {
-      setBackendData();
-    }, 3000);
+    // setTimeout(() => {
+    // }, 3000);
     getBackendData();
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      console.log("updating");
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     console.log("updating");
+  //   }, 3000);
+  // }, []);
 
   const getBackendData = () => {
     var myHeaders = new Headers();
@@ -151,7 +155,7 @@ function Dashboard() {
             });
             history.push("/login");
           case "success":
-            setData(resultObj.data);
+           Context.setData(resultObj.data);
 
           default:
             break;
@@ -159,46 +163,44 @@ function Dashboard() {
       });
   };
 
-  const setBackendData = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  // const setBackendData = () => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-      jwt: localStorage.jwt,
-      userdata: data,
-    });
+  //   var raw = JSON.stringify({
+  //     jwt: localStorage.jwt,
+  //     userdata: data,
+  //   });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+  //   var requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
 
-    fetch("http://192.168.8.109:8000/data/setdata/", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        console.log(result);
-        // localStorage.setItem('user',result)
-        let resultObj = JSON.parse(result);
-        switch (resultObj.detail) {
-          case "no token found!" || "Session Expired!":
-            toast("Something wents wrong!\nPlease login again.", {
-              type: "error",
-              theme: "colored",
-            });
-            history.push("/login");
-          case "success":
-            console.log(resultObj.message);
-          default:
-            break;
-        }
-      });
-  };
+  //   fetch("http://192.168.8.109:8000/data/setdata/", requestOptions)
+  //     .then((response) => response.text())
+  //     .then((result) => {
+  //       console.log(result);
+  //       // localStorage.setItem('user',result)
+  //       let resultObj = JSON.parse(result);
+  //       switch (resultObj.detail) {
+  //         case "no token found!" || "Session Expired!":
+  //           toast("Something wents wrong!\nPlease login again.", {
+  //             type: "error",
+  //             theme: "colored",
+  //           });
+  //           history.push("/login");
+  //         case "success":
+  //           console.log(resultObj.message);
+  //         default:
+  //           break;
+  //       }
+  //     });
+  // };
 
-  const addNewList = () => {
-    setData({ data: { todoLists: [...data.data.todoLists, ""] } });
-  };
+  
   return (
     <>
       <div className="flex flex-row w-screen h-screen">
@@ -213,14 +215,14 @@ function Dashboard() {
           {selectedPanel === "user" ? (
             <UserProfile />
           ) : selectedPanel === "todos" ? (
-            <TodoLists data={data} />
+            <TodoLists data={Context.data} setData={Context.setData} selectedTodo={selectedTodo} setSelectedTodo={setSelectedTodo} />
           ) : selectedPanel === "lists" ? (
-            <OtherLists data={data} />
+            <OtherLists data={Context.data} />
           ) : (
             ""
           )}
         </div>
-        <div class="resizer" id="dragMe"></div>
+        <div className="resizer" id="dragMe"></div>
         <div></div>
       </div>
     </>
